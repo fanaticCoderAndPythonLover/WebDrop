@@ -140,6 +140,6 @@ function FileFromInput() {
   sendFile(fileField.files[0]);
   
 }
-document.getElementsByClassName('topbar')[0].innerText = "WebDrop || Room: " + ROOM_ID + " || 🟢 Connected";
+document.getElementsByClassName('topbar').getElementsByTagName('h2').innerText = "WebDrop || Room: " + ROOM_ID + " || 🟢 Connected";
 document.getElementById('sendBtn').addEventListener("click", SendFromInput);
 document.getElementById('fileBtn').addEventListener("click", FileFromInput);
