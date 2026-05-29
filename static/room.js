@@ -247,6 +247,6 @@ function showIncomingFile(name, blob) {
   `;
 }
 
-document.getElementById("topbar").innerText = "WebDrop || Room: " + ROOM_ID + " || 🟢 Connected";
+
 document.getElementById('sendBtn').addEventListener("click", SendFromInput);
 document.getElementById('fileBtn').addEventListener("click", FileFromInput);
