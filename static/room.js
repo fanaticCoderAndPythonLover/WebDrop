@@ -75,13 +75,7 @@ peer.on("connection", (c) => {
     connections[c.peer] = c;
     window.conn = c;
     c.on("open", () => {
-        console.log("INCOMING READY:", c.peer);
-        const h3 = document.createElement("h3");
-	console.log(conn.peer);
-	console.log(conn.peerId);
-        h3.id = conn.peerId;
-        h3.innerText = "Connected to: " + conn.peer;
-        document.getElementById('peerList').appendChild(h3);
+
     });
 
     c.on("data", handleData);

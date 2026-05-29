@@ -5,94 +5,7 @@
   <title>Room {{ room_id }}</title>
   <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
   <style>
-    /* body {
-  margin: 0;
-  font-family: monospace;
-  background: #0f0f12;
-  color: #eee;
-}
-
-.app {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
-  max-width: 700px;
-  margin: auto;
-}
-
-
-.topbar {
-  background: #5a409b;
   
-  border-radius: 8px;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-.topbar h2{
-  align-items: center;
-  display: flex;
-}
-
-.status {
-  background: #15151c;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-
-.files {
-  background: #15151c;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-
-.text {
-  background: #15151c;
-  padding: 10px;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-
-input {
-  padding: 8px;
-  background: #222;
-  border: none;
-  color: white;
-  border-radius: 6px;
-}
-
-
-
-button:hover {
-  background: #1f4fc9;
-} */
- /* .tabs {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #333;
-  padding: 15px 30px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: 1000;
-}
-.tabs button {
-  padding: 8px;
-  background: #2b6cff;
-  border: none;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-} */
 :root {
   --bg: #0f0f12;
   --panel: #16161c;
@@ -192,7 +105,7 @@ body {
   padding: 10px 10px;
   border-radius: 16px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   max-width: 40%;
   margin: 1 auto;
@@ -353,7 +266,7 @@ button:active {
   
   <ul id="peerList">
   
-      <!-- <div class="peer" id="a44b790e-bd65-478e-a6d1-6bc5f4321b45">
+      <div class="peer" id="a44b790e-bd65-478e-a6d1-6bc5f4321b45">
         <div class="name">
           <span class="dot green"></span>
           hawk7756
@@ -363,7 +276,7 @@ button:active {
           Select
         </button>
       </div>
-     -->
+    
   </ul>
 <!---
 <div class="peer">
@@ -388,7 +301,7 @@ button:active {
   </div>
 </div>
 
-  <div id="receivePanel">
+  <div id="receivePanel" style="display:none;">
     
     <h3 id="displayname"></h3>
     <h3 id="recvstatus">Waiting for incoming transfers...</h3>
