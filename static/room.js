@@ -9,10 +9,10 @@ const socket = io();
 const connections = {};
 let fileBuffer = [];
 const messages = document.getElementById("messages");
-const idField = document.getElementById('idInput');
 const text = document.getElementById('messageInput');
 const fileField = document.getElementById('fileInput');
-console.log(ROOM_ID);
+
+
 peer.on("open", (id) => {
   socket.emit("register-peer", {
     room: ROOM_ID,
@@ -46,12 +46,18 @@ function setupConnection(conn) {
 
     conn.on("open", () => {
         console.log("CONNECTED");
+        const h3 = document.createElement("h3");
+        h3.id = conn.peerId;
+        h3.innerText = "Connected to: " + conn.peer;
+        document.getElementById('peerList').appendChild(h3);
+
     });
 
     conn.on("data", handleData);
 
     conn.on("close", () => {
         console.log("DISCONNECTED");
+        document.getElementById('peerList').removeChild(document.getElementById(conn.peerId));
     });
 }
 
@@ -82,9 +88,15 @@ function sendFile(file) {
             name: file.name,
             data: reader.result
         });
+        addFile(file.name, URL.createObjectURL(new Blob([reader.result])));
     };
 
     reader.readAsArrayBuffer(file);
+}
+
+function addFile(name, url) {
+  document.getElementById("fileList").innerHTML +=
+    `<a href="${url}">${name}</a><br>`;
 }
 
 function handleData(data) {
@@ -126,7 +138,8 @@ function SendFromInput() {
 }
 function FileFromInput() {
   sendFile(fileField.files[0]);
-  addMessage("Sent "+ fileField.files[0]["name"]);
+  
 }
+document.getElementsByClassName('topbar')[0].innerText = "WebDrop || Room: " + ROOM_ID + " || 🟢 Connected";
 document.getElementById('sendBtn').addEventListener("click", SendFromInput);
 document.getElementById('fileBtn').addEventListener("click", FileFromInput);

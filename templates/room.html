@@ -5,7 +5,7 @@
   <title>Room {{ room_id }}</title>
   <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
   <style>
-    body {
+    /* body {
       font-family: Arial;
       background: #111111;
       color: white;
@@ -53,27 +53,122 @@
 
     a {
       color: #20e395;
-    }
+    } */
+    body {
+  margin: 0;
+  font-family: monospace;
+  background: #0f0f12;
+  color: #eee;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  max-width: 700px;
+  margin: auto;
+}
+
+/* TOP BAR */
+.topbar {
+  background: #5a409b;
+  
+  border-radius: 8px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.topbar h2{
+  align-items: center;
+  display: flex;
+}
+/* STATUS */
+.status {
+  background: #15151c;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* FILES */
+.files {
+  background: #15151c;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* TEXT */
+.text {
+  background: #15151c;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* INPUTY */
+input {
+  padding: 8px;
+  background: #222;
+  border: none;
+  color: white;
+  border-radius: 6px;
+}
+
+button {
+  padding: 8px;
+  background: #2b6cff;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1f4fc9;
+}
+
   </style>
 
 </head>
 
 <body>
 
-  <div class="container">
+<div class="app">
+  <div class="topbar">
+    <h2>WebDrop || Room: {{ room_id }} || 🔴 Disconnected</h2>
+  </div>
+  
+  <div class="status">
+    <div class="peers"><h3>Peers: </h3>
+      <ul id="peerList">
 
-    <h1>Room {{ room_id }}</h1>
+      </ul>
+    </div>
+  </div>
 
-    <div id="messages"></div>
+  <div class="files">
+    <h3>Files: </h3>
+    <ul id="fileList">
 
-
-    <input id="messageInput">
-    <button id='sendBtn'>Send</button>
-    <br>
-
+    </ul>
     <input type="file" id="fileInput">
     <button id="fileBtn">Send file</button>
   </div>
+
+  <div class="filelist">
+  </div>
+  
+  <div class="text">
+    <div id="messages">
+    </div>
+
+      <input id="messageInput" placeholder="message...">
+      <button id="sendBtn">Send</button>  
+  </div>
+</div>
+
 
   <script>
     const ROOM_ID = "{{ room_id }}"
