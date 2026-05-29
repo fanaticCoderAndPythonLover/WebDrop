@@ -1,0 +1,44 @@
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 600px;
+    margin-top: 40px;
+}
+
+#messages {
+    background: #111827;
+    padding: 10px;
+    height: 300px;
+    overflow-y: auto;
+    border-radius: 10px;
+}
+
+input, button {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    background: #3b82f6;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+.file {
+    margin-top: 5px;
+    padding: 5px;
+    background: #1f2937;
+    border-radius: 6px;
+}

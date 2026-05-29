@@ -1,0 +1,181 @@
+
+const socket = io();
+let pc= null;
+let pcCreated = false;
+let channel;
+let iceQueue = [];
+let inOffer = false;
+
+function resetPC() {
+    if (pc) {
+        pc.close();
+        pc = null;
+    }
+
+    pc = new RTCPeerConnection({
+        iceServers: [
+            { urls: "stun:stun.l.google.com:19302" }
+        ]
+    });
+
+    return pc;
+}
+
+function flushIceQueue() {
+    iceQueue.forEach(async (c) => {
+        try {
+            await pc.addIceCandidate(new RTCIceCandidate(c));
+        } catch (e) {}
+    });
+                console.log('robi sie ?')
+
+    iceQueue = [];
+}
+
+
+
+const messages = document.getElementById("messages");
+
+socket.emit("join", {
+  room: ROOM_ID
+});
+
+socket.on("staus", (data) => {
+
+    const div = document.CreateElement("div");
+    div.innerText = data.msg;
+
+    messages.appendChild(div);
+
+});
+socket.on("message", (data) => {
+
+    const div = document.createElement("div");
+    div.innerText = data.msg;
+
+    messages.appendChild(div);
+});
+function sendMessage() {
+    const input = document.getElementById("messageInput");
+
+    socket.emit("message", {
+        room: ROOM_ID,
+        msg: input.value
+    });
+
+    input.value = "";
+};
+
+function sendFile() {
+    const file = document.getElementById("fileInput").files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = function () {
+        socket.emit("file", {
+            room: ROOM_ID,
+            name: file.name,
+            content: Array.from(new Uint8Array(reader.result))
+        });
+    };
+
+    reader.readAsArrayBuffer(file);
+}
+
+socket.on("file", (data) => {
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+        📁 ${data.name}
+        <a href="${data.url}" target="_blank">download</a>
+    `;
+
+    messages.appendChild(div);
+});
+// WebRTC 
+
+
+
+async function startConnection() {
+    if (pcCreated) return;
+    pcCreated = true;
+
+    pc = resetPC();
+
+    pc.onicecandidate = (event) => {
+        if (event.candidate) {
+            socket.emit("ice", {
+                room: ROOM_ID,
+                candidate: event.candidate
+            });
+        }
+    };
+
+    channel = pc.createDataChannel("file");
+
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+
+    socket.emit("offer", {
+        room: ROOM_ID,
+        offer
+    });
+}
+
+
+
+function sendFileWebRTC(file) {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        channel.send(reader.result);
+    };
+
+    reader.readAsArrayBuffer(file);
+}
+
+
+socket.on("offer", async (data) => {
+
+    pc = resetPC(); // 🔥 MUSI BYĆ PIERWSZE
+
+    iceQueue = [];
+
+    await pc.setRemoteDescription(
+        new RTCSessionDescription(data.offer)
+    );
+
+    const answer = await pc.createAnswer();
+    await pc.setLocalDescription(answer);
+
+    socket.emit("answer", {
+        room: ROOM_ID,
+        answer
+    });
+
+    flushIceQueue(); // dopiero po SDr
+});
+
+socket.on("ice", async (data) => {
+
+    if (!pc || !pc.remoteDescription) {
+        iceQueue.push(data.candidate);
+        return;
+    }
+
+    try {
+        await pc.addIceCandidate(new RTCIceCandidate(data.candidate));
+    } catch (e) {
+        console.log("ICE ERROR:", e);
+    }
+});
+
+
+
+socket.on("answer", async (data) => {
+    if (!pc || pc.signalingState !== "have-local-offer") {
+        return; // 🔥 ignoruj duplikaty
+    }
+await pc.setRemoteDescription(new RTCSessionDescription(data.answer));
+});
+document.getElementById("sendBtn").addEventListener("click", sendMessage);
