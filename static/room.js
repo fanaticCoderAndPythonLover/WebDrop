@@ -10,7 +10,7 @@ const connections = {};
 let peers = {};
 let selectedPeer= null;
 let fileBuffer = [];
-const messages = document.getElementById("messages");
+const messages = document.getElementById("incoming");
 const text = document.getElementById('textInput');
 const fileField = document.getElementById('fileInput');
 
@@ -32,12 +32,12 @@ socket.on("peer-list", (data) => {
 
 function renderPeers(peers) {
   const el = document.getElementById("peerList");
-  console.log(typeof peers);
   el.innerHTML = "";
   try {
     Object.entries(peers).forEach(([id, p]) => {
+	if (p.name != displayName) {
     el.innerHTML += `
-      <div class="peer">
+      <div class="peer" id="${id}">
         <div class="name">
           <span class="dot green"></span>
           ${p.name}
@@ -47,7 +47,7 @@ function renderPeers(peers) {
           Select
         </button>
       </div>
-    `;
+    `;}
   });
   } catch {
   console.log("error");
@@ -75,6 +75,8 @@ peer.on("connection", (c) => {
     c.on("open", () => {
         console.log("INCOMING READY:", c.peer);
         const h3 = document.createElement("h3");
+	console.log(conn.peer);
+	console.log(conn.peerId);
         h3.id = conn.peerId;
         h3.innerText = "Connected to: " + conn.peer;
         document.getElementById('peerList').appendChild(h3);
@@ -83,8 +85,8 @@ peer.on("connection", (c) => {
     c.on("data", handleData);
     c.on("close", () => {
         
-        document.getElementById('peerList').removeChild(document.getElementById(conn.peerId));
     });
+
 });
 
 socket.on("peer-joined", (data) => {
@@ -97,9 +99,10 @@ socket.on("peer-joined", (data) => {
     setupConnection(window.conn);
 });
 
-socket.on("disconnect", (data) => {
-    console.log(data.id)
+socket.on("dconnt", (data) => {
+    console.log("data " + data)
     document.getElementById(data.id).remove();
+    document.getElementById(data.id2).remove();
 });
 
 function setupConnection(conn) {
@@ -116,10 +119,13 @@ function setupConnection(conn) {
     conn.on("data", handleData);
     conn.on("close", () => {
         console.log("DISCONNECTED");
-        document.getElementById('peerList').removeChild(document.getElementById(conn.peerId));
-	conn.send({
-	    type: "disconnect",
-	    id: conn.peerId,
+        document.getElementById(conn.peerId).remove();
+	document.getElementById(conn.peer).remove();	
+	
+	conn.send("dconnt", {
+	    type: "dconnt",
+	    id: conn.peer,
+	    id2:conn.peerId,
             room: ROOM_ID
 	});
     });
@@ -233,8 +239,8 @@ let displayName = getCookie("displayName");
 if (!displayName) {
   displayName = generateName();
   setCookie("displayName", displayName);
-  document.getElementById("displayname").innerText = "Your name: " + displayName;
-}
+  }
+document.getElementById("displayname").innerText = "Your name: " + displayName;
 
 function showIncomingFile(name, blob) {
   const url = URL.createObjectURL(blob);

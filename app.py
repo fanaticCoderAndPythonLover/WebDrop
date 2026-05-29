@@ -55,9 +55,18 @@ def handle_file(data):
     }, to=room)
 
 
-@socketio.on("disconnect")
+@socketio.on("dconnt")
 def disconnect(data):
-    emit("disconnect", data, to=data["room"])
+    join_room(data["room"])
+    emit("dconnt", {
+        "id": data["id"],
+        "id2": data["id2"],
+        }, to=data["room"])
+    
+    for peerid in list(rooms[data["room"]]["peers"].keys()):
+        if peerid == data["id"] or peerid == data["id2"]:
+            del rooms[data["room"]]["peers"][peerid]
+
 
 #WebRTC
 
@@ -84,7 +93,8 @@ def register_peer(data):
     if room not in rooms:
         rooms[room] = {"peers": {}}
 
-    rooms[room]["peers"][peer_id] = {"name": name}
+    rooms[room]["peers"][peer_id] = {"name": name,
+                                     "socket_sid": request.sid}
 
     join_room(room)
     emit(
@@ -97,17 +107,8 @@ def register_peer(data):
 @socketio.on("disconnect")
 def disconnect():
     for room in rooms:
-        peers = rooms[room]["peers"]
-
-        for pid in list(peers.keys()):
-            if pid == request.sid:
-                del peers[pid]
-
-    
-    emit(
-        "peer-list",
-        rooms[room]["peers"],
-        to=room
-    )
+        for pid, peer in list(rooms[room]["peers"].items()):
+            if peer["socket_sid"] == request.sid:
+                del rooms[room]["peers"][pid]
 socketio.run(app, host="0.0.0.0", port=5005)
     
