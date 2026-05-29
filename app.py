@@ -15,8 +15,9 @@ rooms = {}
 def room(room_id):
     if room_id not in rooms:
         rooms[room_id] = {
-            "created": time.time(),
-            "users": []
+            "peers": {
+                           
+            }
         }
 
         
@@ -53,7 +54,14 @@ def handle_file(data):
         "url": f"/download/{filename}"
     }, to=room)
 
+
+@socketio.on("disconnect")
+def disconnect(data):
+    emit("disconnect", data, to=data["room"])
+
 #WebRTC
+
+
 
 @socketio.on("offer")
 def offer(data):

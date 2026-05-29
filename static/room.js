@@ -11,7 +11,7 @@ let peers = {};
 let selectedPeer= null;
 let fileBuffer = [];
 const messages = document.getElementById("messages");
-const text = document.getElementById('messageInput');
+const text = document.getElementById('textInput');
 const fileField = document.getElementById('fileInput');
 
 
@@ -26,15 +26,16 @@ peer.on("open", (id) => {
 
 socket.on("peer-list", (data) => {
   peers = data;
-  renderPeers();
+  renderPeers(peers);
   console.log("socket received peer-list");
 });
 
-function renderPeers() {
+function renderPeers(peers) {
   const el = document.getElementById("peerList");
+  console.log(typeof peers);
   el.innerHTML = "";
-
-  Object.entries(peers).forEach(([id, p]) => {
+  try {
+    Object.entries(peers).forEach(([id, p]) => {
     el.innerHTML += `
       <div class="peer">
         <div class="name">
@@ -48,6 +49,9 @@ function renderPeers() {
       </div>
     `;
   });
+  } catch {
+  console.log("error");
+  }
 }
 
 function selectPeer(id) {
@@ -86,13 +90,16 @@ peer.on("connection", (c) => {
 socket.on("peer-joined", (data) => {
 
     const peerId = data.peerId;
-
     if (peerId === peer.id) return;
 
     window.conn = peer.connect(peerId);
 
     setupConnection(window.conn);
 });
+
+socket.on("disconnect", (data) => {
+    document.getElementById('peerList').removeChild(document.getElementById(data.id));
+}
 
 function setupConnection(conn) {
 
@@ -106,10 +113,14 @@ function setupConnection(conn) {
     });
 
     conn.on("data", handleData);
-
     conn.on("close", () => {
         console.log("DISCONNECTED");
         document.getElementById('peerList').removeChild(document.getElementById(conn.peerId));
+	conn.send({
+	    type: "disconnect",
+	    id: conn.peerId,
+            room: ROOM_ID
+	});
     });
 }
 
@@ -214,20 +225,6 @@ function generateName() {
   const animals = ["fox", "wolf", "cat", "hawk", "bear"];
   const n = Math.floor(Math.random() * 9999);
   return animals[Math.floor(Math.random() * animals.length)] + n;
-}
-
-function renderPeers(peers) {
-  const el = document.getElementById("peerList");
-  el.innerHTML = "";
-
-  peers.forEach(p => {
-    el.innerHTML += `
-      <div class="peer">
-        🟢 ${p.displayName}
-        <button onclick="selectPeer('${p.id}')">Select</button>
-      </div>
-    `;
-  });a
 }
 
 let displayName = getCookie("displayName");
