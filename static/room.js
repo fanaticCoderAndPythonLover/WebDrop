@@ -21,11 +21,13 @@ peer.on("open", (id) => {
     peerId: id,
     name: displayName
   });
+  console.log("peer.on open socket emitted register-peer");
 })
 
 socket.on("peer-list", (data) => {
   peers = data;
   renderPeers();
+  console.log("socket received peer-list");
 });
 
 function renderPeers() {
@@ -225,7 +227,7 @@ function renderPeers(peers) {
         <button onclick="selectPeer('${p.id}')">Select</button>
       </div>
     `;
-  });
+  });a
 }
 
 let displayName = getCookie("displayName");
