@@ -98,7 +98,7 @@ socket.on("peer-joined", (data) => {
 });
 
 socket.on("disconnect", (data) => {
-    document.getElementById('peerList').removeChild(document.getElementById(data.id));
+    document.getElementById(data.id).remove();
 });
 
 function setupConnection(conn) {
