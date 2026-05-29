@@ -98,6 +98,7 @@ socket.on("peer-joined", (data) => {
 });
 
 socket.on("disconnect", (data) => {
+    console.log(data.id)
     document.getElementById(data.id).remove();
 });
 
