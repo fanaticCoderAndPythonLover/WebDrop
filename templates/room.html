@@ -189,11 +189,14 @@ body {
 /* ===== PEER LIST ===== */
 .peer {
   background: var(--panel2);
-  padding: 10px;
-  border-radius: 8px;
+  padding: 10px 10px;
+  border-radius: 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
+  max-width: 40%;
+  margin: 1 auto;
+
 }
 
 .peer button {
@@ -214,7 +217,7 @@ body {
 }
 
 input[type="file"] {
-  width: 100%;
+  width: 61%;
 }
 
 /* ===== TEXT INPUT ===== */
@@ -348,7 +351,20 @@ button:active {
   
 <div id="sendPanel">
   
-  <div id="peerList"></div>
+  <ul id="peerList">
+  
+      <!-- <div class="peer" id="a44b790e-bd65-478e-a6d1-6bc5f4321b45">
+        <div class="name">
+          <span class="dot green"></span>
+          hawk7756
+        </div>
+
+        <button onclick="selectPeer('a44b790e-bd65-478e-a6d1-6bc5f4321b45')">
+          Select
+        </button>
+      </div>
+     -->
+  </ul>
 <!---
 <div class="peer">
   <div class="name">
@@ -375,7 +391,7 @@ button:active {
   <div id="receivePanel">
     
     <h3 id="displayname"></h3>
-    <h3>Waiting for incoming transfers...</h3>
+    <h3 id="recvstatus">Waiting for incoming transfers...</h3>
     <div class="receive-center" id="incoming"></div>
     
   </div>

@@ -56,7 +56,9 @@ function renderPeers(peers) {
 
 function selectPeer(id) {
   selectedPeer = id;
-
+  btn = document.getElementById(id).querySelector("button");
+  btn.innerText = "Selected";
+  btn.color = "green";
   if (window.conn) window.conn.close();
 
   window.conn = peer.connect(id);
@@ -109,10 +111,6 @@ function setupConnection(conn) {
 
     conn.on("open", () => {
         console.log("CONNECTED");
-        const h3 = document.createElement("h3");
-        h3.id = conn.peerId;
-        h3.innerText = "Connected to: " + conn.peer;
-        document.getElementById('peerList').appendChild(h3);
 
     });
 
@@ -182,6 +180,7 @@ function handleData(data) {
         a.innerText = "download " + data.name;
 
         messages.appendChild(a);
+        document.getElementById("recvstatus").innerText = "Received file: " + data.name;
     }
     if (data.type === "text") {
         addMessage("THEM: " + data.data);
