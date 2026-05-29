@@ -7,6 +7,8 @@ const peer = new Peer({
 
 const socket = io();
 const connections = {};
+let peers = {};
+let selectedPeer= null;
 let fileBuffer = [];
 const messages = document.getElementById("messages");
 const text = document.getElementById('messageInput');
@@ -16,9 +18,49 @@ const fileField = document.getElementById('fileInput');
 peer.on("open", (id) => {
   socket.emit("register-peer", {
     room: ROOM_ID,
-    peerId: id
+    peerId: id,
+    name: displayName
   });
 })
+
+socket.on("peer-list", (data) => {
+  peers = data;
+  renderPeers();
+});
+
+function renderPeers() {
+  const el = document.getElementById("peerList");
+  el.innerHTML = "";
+
+  Object.entries(peers).forEach(([id, p]) => {
+    el.innerHTML += `
+      <div class="peer">
+        <div class="name">
+          <span class="dot green"></span>
+          ${p.name}
+        </div>
+
+        <button onclick="selectPeer('${id}')">
+          Select
+        </button>
+      </div>
+    `;
+  });
+}
+
+function selectPeer(id) {
+  selectedPeer = id;
+
+  if (window.conn) window.conn.close();
+
+  window.conn = peer.connect(id);
+
+  window.conn.on("open", () => {
+    console.log("CONNECTED TO", id);
+  });
+
+  window.conn.on("data", handleData);
+}
 
 peer.on("connection", (c) => {
 
@@ -137,10 +179,6 @@ function addMessage(msg) {
 }
 
 
-function ConnFromInput() {
-    connectToPeer(idField);
-}
-
 function SendFromInput() {
    sendText(text); 
 }
@@ -148,6 +186,67 @@ function FileFromInput() {
   sendFile(fileField.files[0]);
   
 }
+
+function showSend() {
+  document.getElementById("sendPanel").style.display = "block";
+  document.getElementById("receivePanel").style.display = "none";
+}
+
+function showReceive() {
+  document.getElementById("sendPanel").style.display = "none";
+  document.getElementById("receivePanel").style.display = "block";
+}
+
+function getCookie(name) {
+  return document.cookie
+    .split("; ")
+    .find(row => row.startsWith(name + "="))
+    ?.split("=")[1];
+}
+
+function setCookie(name, value) {
+  document.cookie = `${name}=${value}; path=/; max-age=31536000`;
+}
+
+function generateName() {
+  const animals = ["fox", "wolf", "cat", "hawk", "bear"];
+  const n = Math.floor(Math.random() * 9999);
+  return animals[Math.floor(Math.random() * animals.length)] + n;
+}
+
+function renderPeers(peers) {
+  const el = document.getElementById("peerList");
+  el.innerHTML = "";
+
+  peers.forEach(p => {
+    el.innerHTML += `
+      <div class="peer">
+        🟢 ${p.displayName}
+        <button onclick="selectPeer('${p.id}')">Select</button>
+      </div>
+    `;
+  });
+}
+
+let displayName = getCookie("displayName");
+
+if (!displayName) {
+  displayName = generateName();
+  setCookie("displayName", displayName);
+  document.getElementById("displayname").innerText = "Your name: " + displayName;
+}
+
+function showIncomingFile(name, blob) {
+  const url = URL.createObjectURL(blob);
+
+  document.getElementById("incoming").innerHTML += `
+    <div>
+      📁 ${name}
+      <a href="${url}" download>download</a>
+    </div>
+  `;
+}
+
 document.getElementById("topbar").innerText = "WebDrop || Room: " + ROOM_ID + " || 🟢 Connected";
 document.getElementById('sendBtn').addEventListener("click", SendFromInput);
 document.getElementById('fileBtn').addEventListener("click", FileFromInput);

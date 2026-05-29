@@ -72,15 +72,34 @@ def ice(data):
 def register_peer(data):
     room = data["room"]
     peer_id = data["peerId"]
+    name = data["name"]
+    if room not in rooms:
+        rooms[room] = {"peers": {}}
 
-    rooms[room]["users"].append(peer_id)
+    rooms[room]["peers"][peer_id] = {"name": name}
+
     join_room(room)
     emit(
-        "peer-joined",
-        {"room": room, "peerId": peer_id},
+        "peer-list",
+        rooms[room]["peers"],
         to=room
     )
-    print('emit successful')
 
+
+@socketio.on("disconnect")
+def disconnect():
+    for room in rooms:
+        peers = rooms[room]["peers"]
+
+        for pid in list(peers.keys()):
+            if pid == request.sid:
+                del peers[pid]
+
+    
+    emit(
+        "peer-list",
+        rooms[room]["peers"],
+        to=room
+    )
 socketio.run(app, host="0.0.0.0", port=5005)
     

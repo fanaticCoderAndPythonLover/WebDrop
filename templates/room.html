@@ -6,55 +6,6 @@
   <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
   <style>
     /* body {
-      font-family: Arial;
-      background: #111111;
-      color: white;
-      display: flex;
-      justify-content: center;
-    }
-
-    .container {
-      width: 600px;
-      margin-top: 40px;
-    }
-
-    #messages {
-      background: #111827;
-      padding: 10px;
-      height: 300px;
-      overflow-y: auto;
-      border-radius: 10px;
-    }
-
-    input,
-    button {
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-    }
-
-    button {
-      background: #3b82f6;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #2563eb;
-    }
-
-    .file {
-      margin-top: 5px;
-      padding: 5px;
-      background: #1f2937;
-      border-radius: 6px;
-    }
-
-    a {
-      color: #20e395;
-    } */
-    body {
   margin: 0;
   font-family: monospace;
   background: #0f0f12;
@@ -70,7 +21,7 @@
   margin: auto;
 }
 
-/* TOP BAR */
+
 .topbar {
   background: #5a409b;
   
@@ -83,21 +34,21 @@
   align-items: center;
   display: flex;
 }
-/* STATUS */
+
 .status {
   background: #15151c;
   padding: 10px;
   border-radius: 8px;
 }
 
-/* FILES */
+
 .files {
   background: #15151c;
   padding: 10px;
   border-radius: 8px;
 }
 
-/* TEXT */
+
 .text {
   background: #15151c;
   padding: 10px;
@@ -107,7 +58,7 @@
   gap: 8px;
 }
 
-/* INPUTY */
+
 input {
   padding: 8px;
   background: #222;
@@ -116,19 +67,269 @@ input {
   border-radius: 6px;
 }
 
-button {
+
+
+button:hover {
+  background: #1f4fc9;
+} */
+ /* .tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+  padding: 15px 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+.tabs button {
   padding: 8px;
   background: #2b6cff;
   border: none;
   color: white;
   border-radius: 6px;
   cursor: pointer;
+} */
+:root {
+  --bg: #0f0f12;
+  --panel: #16161c;
+  --panel2: #1c1c24;
+  --text: #e6e6e6;
+  --muted: #9a9aa3;
+
+  --green: #2ee59d;
+  --yellow: #ffcc00;
+  --red: #ff4d4d;
+
+  --blue: #3b82f6;
+}
+* {
+  box-sizing: border-box;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ===== APP WRAPPER ===== */
+.app {
+
+  margin: 0 auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+  background: var(--panel);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 32px;
+  font-weight: 600;  
+  align-items: center;
+  text-align: center;
+}
+
+/* status dot */
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.green { background: var(--green); }
+.yellow { background: var(--yellow); }
+.red { background: var(--red); }
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--panel);
+  color: var(--text);
+  transition: 0.15s;
+}
+
+.tabs button:hover {
+  background: var(--panel2);
+}
+
+.tabs button.active {
+  background: var(--blue);
+}
+
+/* ===== PANELS ===== */
+.panel {
+  background: var(--panel);
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== PEER LIST ===== */
+.peer {
+  background: var(--panel2);
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.peer button {
+  background: var(--blue);
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ===== FILES ===== */
+.file-box {
+  background: #1a1a22;
+  border: 1px solid #2a2a35;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+input[type="file"] {
+  width: 100%;
+}
+
+/* ===== TEXT INPUT ===== */
+.text-box {
+  display: flex;
+  gap: 8px;
+}
+
+.text-box input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: var(--panel2);
+  color: var(--text);
+}
+
+.text-box button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--blue);
+  color: white;
+  cursor: pointer;
+}
+
+/* ===== MESSAGES / LOGS ===== */
+.log {
+  background: var(--panel2);
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+/* ===== RECEIVE SCREEN ===== */
+.receive-center {
+  text-align: center;
+  padding: 30px;
+  color: var(--muted);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* ===== LINKS ===== */
+a {
+  color: var(--green);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+input {
+  
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #2a2a35;
+  background: #1a1a22;
+  color: #e6e6e6;
+  outline: none;
+  transition: 0.15s;
+}
+
+
+input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+button {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  background: #2b6cff;
+  color: white;
+  cursor: pointer;
+  transition: 0.15s;
+  font-weight: 400;
+  font-size: 14px;
 }
 
 button:hover {
   background: #1f4fc9;
+  transform: translateY(-1px);
 }
 
+button:active {
+  transform: translateY(0px);
+  opacity: 0.9;
+}
+.send-options {
+  justify-content:left;
+  flex-direction: column;
+  display: flex;
+  max-width: 400px;
+  
+  
+}
+.subsend-options {
+  justify-content: center;
+  display: flex;
+  padding: 12px 12px;
+  gap: 8px;
+}
+.active {
+  background:#2ee59d;
+  
+}
   </style>
 
 </head>
@@ -136,11 +337,51 @@ button:hover {
 <body>
 
 <div class="app">
-  <div class="topbar">
-    <h2 id="topbar">WebDrop || Room: {{ room_id }} || 🔴 Disconnected</h2>
+  <div class="tabs">
+    <button id="tabSend" ><span class="emoji">📩</span>Send</button>
+    <button id="tabReceive"><span class="emoji">📥</span>Receive</button>
   </div>
   
-  <div class="status">
+  <div class="topbar">
+    WebDrop
+  </div>
+  
+<div id="sendPanel">
+  
+  <div id="peerList"></div>
+<!---
+<div class="peer">
+  <div class="name">
+    <span class="dot green"></span>
+    fox123
+  </div>
+
+  <div class="actions">
+    <button>Select</button>
+  </div>
+</div> -->
+  <div class="send-options">
+    <div class="subsend-options">
+      <input type="file" id="fileInput" class="file-box">
+      <button onclick="sendFile()">Send file</button>
+    </div>
+    <div class="subsend-options">
+      <input id="textInput" class="text-box"  placeholder="Type a message...">
+      <button onclick="sendText()">Send text</button>
+    </div>
+  </div>
+</div>
+
+  <div id="receivePanel">
+    
+    <h3 class="displayname"></h3>
+    <h3>Waiting for incoming transfers...</h3>
+    <div class="receive-center" id="incoming"></div>
+    
+  </div>
+
+
+  <!-- <div class="status">
     <div class="peers"><h3>Peers: </h3>
       <ul id="peerList">
 
@@ -167,7 +408,7 @@ button:hover {
       <input id="messageInput" placeholder="message...">
       <button id="sendBtn">Send</button>  
   </div>
-</div>
+</div> -->
 
 
   <script>
