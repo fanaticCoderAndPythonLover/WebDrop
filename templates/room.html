@@ -5,7 +5,7 @@
   <title>Room {{ room_id }}</title>
   <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
+  <link rel="stylesheet" href="../static/style.css">
 </head>
 
 <body>
@@ -17,7 +17,7 @@
   </div>
   
   <div class="topbar">
-    WebDrop
+    WebDrop Room {{ ROOM_ID}}
   </div>
   
 <div id="sendPanel" >
@@ -36,17 +36,7 @@
       </div>
      -->
   </ul>
-<!---
-<div class="peer">
-  <div class="name">
-    <span class="dot green"></span>
-    fox123
-  </div>
 
-  <div class="actions">
-    <button>Select</button>
-  </div>
-</div> -->
   <div class="send-options">
     <div class="subsend-options">
       <input type="file" id="fileInput" class="file-box">

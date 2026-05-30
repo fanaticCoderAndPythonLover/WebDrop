@@ -93,6 +93,8 @@ body {
   flex-direction: column;
   padding: 0 16px 16px 16px;
   overflow-y: auto;
+  height: 100%;
+  overflow: hidden;
 }
 
 #peerList {
@@ -102,6 +104,8 @@ body {
   flex-direction: column;
   gap: 12px;
   margin-bottom: 16px;
+  overflow-y: auto;
+
 }
 
 .peer {
@@ -158,11 +162,14 @@ body {
 }
 
 .send-options {
+  margin-top: auto;
+
   display: flex;
   flex-direction: column;
   gap: 12px;
   border-top: 1px solid var(--border-color);
   padding-top: 16px;
+  background: var(--surface-color);
 }
 
 .subsend-options {
