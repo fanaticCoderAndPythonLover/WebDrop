@@ -1,0 +1,243 @@
+<style>
+  
+:root {
+  --bg: #0f0f12;
+  --panel: #16161c;
+  --panel2: #1c1c24;
+  --text: #e6e6e6;
+  --muted: #9a9aa3;
+
+  --green: #2ee59d;
+  --yellow: #ffcc00;
+  --red: #ff4d4d;
+
+  --blue: #3b82f6;
+}
+* {
+  box-sizing: border-box;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ===== APP WRAPPER ===== */
+.app {
+
+  margin: 0 auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+  background: var(--panel);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 32px;
+  font-weight: 600;  
+  align-items: center;
+  text-align: center;
+}
+
+/* status dot */
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.green { background: var(--green); }
+.yellow { background: var(--yellow); }
+.red { background: var(--red); }
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--panel);
+  color: var(--text);
+  transition: 0.15s;
+}
+
+.tabs button:hover {
+  background: var(--panel2);
+}
+
+.tabs button.active {
+  background: var(--blue);
+}
+
+/* ===== PANELS ===== */
+.panel {
+  background: var(--panel);
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== PEER LIST ===== */
+.peer {
+  background: var(--panel2);
+  padding: 10px 10px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 40%;
+  margin: 1 auto;
+
+}
+
+.peer button {
+  background: var(--blue);
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ===== FILES ===== */
+.file-box {
+  background: #1a1a22;
+  border: 1px solid #2a2a35;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+input[type="file"] {
+  width: 61%;
+}
+
+/* ===== TEXT INPUT ===== */
+.text-box {
+  display: flex;
+  gap: 8px;
+}
+
+.text-box input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: var(--panel2);
+  color: var(--text);
+}
+
+.text-box button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--blue);
+  color: white;
+  cursor: pointer;
+}
+
+/* ===== MESSAGES / LOGS ===== */
+.log {
+  background: var(--panel2);
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+/* ===== RECEIVE SCREEN ===== */
+.receive-center {
+  text-align: center;
+  padding: 30px;
+  color: var(--muted);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* ===== LINKS ===== */
+a {
+  color: var(--green);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+input {
+  
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #2a2a35;
+  background: #1a1a22;
+  color: #e6e6e6;
+  outline: none;
+  transition: 0.15s;
+}
+
+
+input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+button {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  background: #2b6cff;
+  color: white;
+  cursor: pointer;
+  transition: 0.15s;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #1f4fc9;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0px);
+  opacity: 0.9;
+}
+.send-options {
+  justify-content:left;
+  flex-direction: column;
+  display: flex;
+  max-width: 400px;
+  
+  
+}
+.subsend-options {
+  justify-content: center;
+  display: flex;
+  padding: 12px 12px;
+  gap: 8px;
+}
+.active {
+  background:#2ee59d;
+  
+}
+  </style>
