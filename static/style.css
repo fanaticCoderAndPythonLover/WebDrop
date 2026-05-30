@@ -24,87 +24,88 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 0;
-  margin:0;
+  padding: clamp(8px, 2vw, 24px);
+  box-sizing: border-box;
+  margin: 0;
 
 }
 
 
 .app {
   background: var(--surface-color);
-  width: 100%;
-  height: 100vh;
-  border-radius: 24px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  
+  border-radius: 1.5em;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
-}
-@media (min-width: 481px) {
-  body {
-    padding: 20px;
-  }
 
+  width: 100%;
+
+  height: calc(100vh - clamp(16px, 4vw, 48px));
+}
+@media (min-width: 768px) {
   .app {
-    max-width: 450px;
-    height: 750px;
-    border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    aspect-ratio: 9 / 16;
+    width: auto;
+    max-width: 1024px;
+    height: 85vh;
+    font-size: calc(85vh * 0.022);
   }
 }
 
 
 .topbar {
   text-align: center;
-  padding: 16px;
+  padding: 1em;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.2em;
   letter-spacing: -0.5px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 0.06em solid var(--border-color);
   color: var(--text-main);
 }
 
 .tabs {
   display: flex;
   background: #edf2f7;
-  padding: 6px;
-  margin: 16px;
-  border-radius: 14px;
+  padding: 0.4em;
+  margin: 1em;
+  border-radius: 0.9em;
 }
 
 .tabs button {
   flex: 1;
   background: transparent;
   border: none;
-  padding: 10px;
-  font-size: 0.95rem;
+  padding: 0.6em;
+  font-size: 0.95em;
   font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  border-radius: 10px;
+  gap: 0.5em;
+  border-radius: 0.7em;
   transition: all 0.2s ease;
 }
 
 .tabs button:hover, .tabs button.active {
   background: var(--surface-color);
   color: var(--text-main);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  box-shadow: 0 0.1em 0.4em rgba(0,0,0,0.04);
 }
 
 .tabs .emoji {
-  font-size: 1.1rem;
+  font-size: 1.1em;
 }
 
 #sendPanel, #receivePanel {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 0 16px 16px 16px;
+  padding: 0 1em 1em 1em;
   overflow-y: auto;
   height: 100%;
   overflow: hidden;
@@ -115,8 +116,8 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 0.8em;
+  margin-bottom: 1em;
   overflow-y: auto;
 
 }
@@ -126,9 +127,9 @@ body {
   justify-content: space-between;
   align-items: center;
   background: #f8fafc;
-  padding: 14px 18px;
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
+  padding: 0.9em 1.1em;
+  border-radius: 1em;
+  border: 0.06em solid var(--border-color);
   transition: transform 0.2s, border-color 0.2s;
 }
 
@@ -140,31 +141,31 @@ body {
 .peer .name {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.625em;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1em;
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 0.625em;
+  height: 0.625em;
   border-radius: 50%;
   display: inline-block;
 }
 
 .dot.green {
   background-color: var(--primary-color);
-  box-shadow: 0 0 8px rgba(98, 196, 165, 0.6);
+  box-shadow: 0 0 0.5em rgba(98, 196, 165, 0.6);
 }
 
 .peer button, .subsend-options button {
   background-color: #edf2f7;
   color: var(--text-main);
   border: none;
-  padding: 8px 16px;
-  border-radius: 10px;
+  padding: 0.5em 1em;
+  border-radius: 0.625em;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.85em;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -179,24 +180,24 @@ body {
 
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  border-top: 1px solid var(--border-color);
-  padding-top: 16px;
+  gap: 0.8em;
+  border-top: 0.06em solid var(--border-color);
+  padding-top: 1em;
   background: var(--surface-color);
 }
 
 .subsend-options {
   display: flex;
-  gap: 10px;
+  gap: 0.625em;
   align-items: center;
 }
 
 .text-box, .file-box {
   flex: 1;
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  font-size: 0.9rem;
+  padding: 0.625em 0.875em;
+  border-radius: 0.75em;
+  border: 0.06em solid var(--border-color);
+  font-size: 0.9em;
   outline: none;
   transition: border-color 0.2s;
 }
@@ -206,15 +207,15 @@ body {
 }
 
 .file-box {
-  padding: 7px;
+  padding: 0.625em 0.875em;
   background: #f8fafc;
-  font-size: 0.8rem;
+  font-size: 0.8em;
 }
 
 #sendBtn, #fileBtn {
   background-color: var(--primary-color);
   color: white;
-  padding: 10px 16px;
+  padding: 0.625em 1em;
 }
 
 #sendBtn:hover, #fileBtn:hover {
@@ -225,22 +226,22 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 1em;
 }
 
 #recvstatus {
-  font-size: 1.1rem;
+  font-size: 1.1em;
   color: var(--text-muted);
   font-weight: 500;
 }
 
 #displayname {
-  font-size: 1.4rem;
+  font-size: 1.4em;
   font-weight: 700;
   color: var(--primary-color);
 }
 
 .receive-center {
-  margin-top: 20px;
+  margin-top: 1.25em;
   width: 100%;
 }
