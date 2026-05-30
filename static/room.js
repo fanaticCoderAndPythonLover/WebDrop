@@ -35,6 +35,8 @@ function renderPeers(peers) {
   el.innerHTML = "";
   try {
     Object.entries(peers).forEach(([id, p]) => {
+	console.log("p.name: " + p.name);
+	console.log("displayName: " + displayName);
 	if (p.name != displayName) {
     el.innerHTML += `
       <div class="peer" id="${id}">
